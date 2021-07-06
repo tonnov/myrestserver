@@ -28,7 +28,11 @@ const usuariosGet = async (req, res = response) => {
 const usuariosPut = async (req, res = response) => {
     
     const { id } = req.params;
-    const { _id, password, google, correo, ...resto } = req.body;
+    // const { _id, password, google, correo, ...resto } = req.body;
+
+    const { nombre, password, role } = req.body;
+
+    const resto = { nombre, password, role };
     
     if (password) {
         const salt = bcrypt.genSaltSync();
@@ -65,14 +69,6 @@ const usuariosPost = async (req, res = response) => {
     } catch (error) {
 
         let err = (error.errors) ? error.message : `Error al procesar el campo: ${Object.keys(error.keyPattern)}`
-        // if (error.errors) {
-        //     console.log(error.message);
-        // }
-
-        // if (error.keyPattern) {
-
-        //     console.log(`Hubo un error al procesar el campo ${Object.keys(error.keyPattern)}`);
-        // }
 
         res.status(500).json({
             status: false,
